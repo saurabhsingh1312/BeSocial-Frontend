@@ -1,0 +1,14 @@
+button{
+    width: 100%;
+    border: 2px;
+    border-color: black;
+    border-style: double;
+    border-radius: 10px;
+}
+.boxlayout{
+    box-shadow: 2px;
+    padding: 5px;
+    border:2px;
+    margin-bottom: 5px;
+    background-color: rgb(224, 224, 224);
+}

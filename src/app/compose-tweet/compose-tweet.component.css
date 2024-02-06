@@ -1,0 +1,17 @@
+.row{
+    background-image: url(../../assets/twitter-brick.jpg);
+    background-size: cover;
+    width: 100%;
+    height: 550px;
+    background-repeat: repeat;
+}
+
+button{
+    width: 100%;
+    margin-top: 5px;
+}
+h6{
+    border: 2px;
+    border-style: solid;
+    background-color: blanchedalmond;
+}

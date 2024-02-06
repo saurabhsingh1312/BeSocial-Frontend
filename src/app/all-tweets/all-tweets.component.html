@@ -1,0 +1,135 @@
+<br><br>
+<div class="row">
+    <div class="col-md-3 offset-3"><button class="btn btn-dark" (click)="filterTweets('top')">Top</button></div>
+    <div class="col-md-3"><button class="btn btn-dark" (click)="filterTweets('newest')">Newest</button></div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-8">
+        <div *ngIf="!showSelectedView">
+            <div *ngIf="tweets.length==0">
+                <p class="text-warning">No Tweets To Show!!!</p>
+            </div>
+
+            <div class="boxlayout">
+                <div *ngFor="let tweet of tweets | paginate : { itemsPerPage : 5, currentPage : p}" style="padding: 10px;">
+                  
+                    <div class="card hoverable">
+                        <a [routerLink]="" class="nav-link" (click)="showSpecificTweet(tweet.id);this.stackPath.push(tweet.id);">
+                            <div class="card-header bg-primary text-white">
+                                <p class="text-dark">{{tweet.publishTime}}</p>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-dark">{{tweet.body}}</p>
+                            </div>
+                        </a>
+                      
+
+                      <div class="card-footer">
+                        <button style="width: 10%;" (click)="likeTweet(tweet.id,tweet.likes);tweet.likes=tweet.likes+1"><i class="fa fa-thumbs-up"></i><span>{{tweet.likes}}</span></button>
+                        <button style="width: 10%;" (click)="dislikeTweet(tweet.id,tweet.dislikes);tweet.dislikes=tweet.dislikes+1"><i class="fa fa-thumbs-down"></i><span>{{tweet.dislikes}}</span></button>
+                        <button style="width: 10%;" (click)="showCommentInput==-1?showCommentInput=tweets.indexOf(tweet):showCommentInput=-1;"><i class="fa fa-comment"></i></button>
+                        <input type="text" placeholder="Comment Here..." *ngIf="showCommentInput==tweets.indexOf(tweet)" style="width: 60%;" #comment (keyup)="commentToSend=comment.value">
+                        <button *ngIf="showCommentInput==tweets.indexOf(tweet)" style="width: 10%;" (click)="commentTweet(tweet.id)"><i class="fa fa-paper-plane"></i></button>
+                      </div>
+                    </div>
+                </div>
+                <br>
+                <div class="card" *ngIf="tweets.length>5">
+                  <div class="card-body">
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                  </div>
+                </div>
+                <br>
+            </div>
+            
+        </div>
+
+
+        <div *ngIf="showSelectedView">
+            <button class="btn btn-dark" (click)="moveBack()">Back</button>
+
+
+            <!-- Post not as link-->
+            <div class="card hoverable">
+                <div class="card-header bg-primary text-white">
+                    <p class="text-dark">{{openedTweet.publishTime}}</p>
+                </div>
+                <div class="card-body">
+                    <p class="text-dark">{{openedTweet.body}}</p>
+                </div>
+              
+
+                <div class="card-footer">
+                    <button style="width: 10%;" (click)="likeTweet(openedTweet.id,openedTweet.likes);openedTweet.likes=openedTweet.likes+1"><i class="fa fa-thumbs-up"></i><span>{{openedTweet.likes}}</span></button>
+                    <button style="width: 10%;" (click)="dislikeTweet(openedTweet.id,openedTweet.dislikes);openedTweet.dislikes=openedTweet.dislikes+1"><i class="fa fa-thumbs-down"></i><span>{{openedTweet.dislikes}}</span></button>
+                    <input type="text" placeholder="Comment Here..."  style="width: 70%;" #comment (keyup)="commentToSend=comment.value">
+                    <button  style="width: 10%;" (click)="commentTweet(openedTweet.id)"><i class="fa fa-paper-plane"></i></button>
+                </div>
+            </div>
+            <!-- comments as array of links for selcted view-->
+            <div class="col-md-11 offset-1">
+                <div *ngIf="openedTweet.comments.length==0">
+                    <p class="text-warning">No Comments To Show!!!</p>
+                </div>
+    
+                <div class="boxlayout">
+                    <div *ngFor="let tweet of openedTweet.comments | paginate : { itemsPerPage : 5, currentPage : p}" style="padding: 10px;">
+                      
+                        <div class="card hoverable">
+                            <a [routerLink]="" class="nav-link" (click)="showSpecificTweet(tweet.id);this.stackPath.push(tweet.id);">
+                                <div class="card-header bg-info text-white">
+                                    <p class="text-dark">{{tweet.publishTime}}</p>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-dark">{{tweet.body}}</p>
+                                </div>
+                            </a>
+                          
+    
+                          <div class="card-footer">
+                            <button style="width: 10%;" (click)="likeTweet(tweet.id,tweet.likes);tweet.likes=tweet.likes+1"><i class="fa fa-thumbs-up"></i><span>{{tweet.likes}}</span></button>
+                            <button style="width: 10%;" (click)="dislikeTweet(tweet.id,tweet.dislikes);tweet.dislikes=tweet.dislikes+1"><i class="fa fa-thumbs-down"></i><span>{{tweet.dislikes}}</span></button>
+                            <button style="width: 10%;" (click)="showCommentInput==-1?showCommentInput=tweets.indexOf(tweet):showCommentInput=-1;"><i class="fa fa-comment"></i></button>
+                            <input type="text" placeholder="Comment Here..." *ngIf="showCommentInput==tweets.indexOf(tweet)" style="width: 60%;" #comment (keyup)="commentToSend=comment.value">
+                            <button *ngIf="showCommentInput==tweets.indexOf(tweet)" style="width: 10%;" (click)="commentTweet(tweet.id)"><i class="fa fa-paper-plane"></i></button>
+                          </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card" *ngIf="tweets.length>5">
+                      <div class="card-body">
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                      </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+            
+
+
+
+
+            <!-- ----------------------------------------------- -->
+
+
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="row" style="margin-bottom: 5px;">
+            <input type="text" placeholder="Enter Tweet" style="width: 80%; border-radius: 10px;" #search (keyup)="searchQuery=search.value">
+            <button style="width: 18%;" (click)="showSearchedTweet()"><i class="fa fa-search"></i></button>
+        </div>
+        <div class="row">
+            <h4 class="text-primary">Trending Topics</h4>
+            <hr>
+            <div *ngFor="let trend of currentTrends;let i=index;">
+                <p class="text-dark">{{trend}}</p><hr>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+            
+

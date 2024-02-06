@@ -1,0 +1,18 @@
+<br><br>
+<div class="row">
+    <div class="col-md-6 offset-3" style="margin-top: 10px;">
+        <h6>Remember, its anonomus,hence you have no claim over it.
+            For claim please screenshot this screen.
+            You can search tweet with exact word for engagements and comments in Trends Section.</h6><hr><br>
+        <p [ngClass]="messageToSend.value.length>300?'text-danger':'text-dark'">
+            {{messageToSend.value.length}}/300
+        </p>
+        <div class="form-group">
+            <textarea name="tweetMessage" rows="6" cols="50" 
+                class="form-control" #messageToSend (keyup)="message=messageToSend.value; showResult=false"></textarea>
+            <button class="btn btn-dark" (click)="addTweet()" [disabled]="checkMaxLen(messageToSend.value)">Tweet</button> 
+        </div>
+        <button class="btn btn-success" *ngIf="showResult && success">Tweet Done!!!</button>
+        <button class="btn btn-danger" *ngIf="showResult && !success">Some Error Occured!!!</button>
+    </div>
+</div>
